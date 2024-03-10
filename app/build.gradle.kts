@@ -54,6 +54,7 @@ android {
 }
 
 dependencies {
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -81,4 +82,8 @@ dependencies {
     implementation(libs.bundles.ktor)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+
+    // biometric
+    implementation(libs.androidx.biometric)
+    implementation(libs.gson)
 }

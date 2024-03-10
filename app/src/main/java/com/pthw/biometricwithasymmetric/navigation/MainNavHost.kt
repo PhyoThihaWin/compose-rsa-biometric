@@ -5,9 +5,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.pthw.biometricwithasymmetric.feature.setup.biometricSetupPage
-import com.pthw.biometricwithasymmetric.feature.setup.setupPageNavigationRoute
 import com.pthw.biometricwithasymmetric.feature.verify.biometricVerifyPage
 import com.pthw.biometricwithasymmetric.feature.verify.verifyPageNavigationRoute
+import timber.log.Timber
 
 /**
  * Top-level navigation graph. Navigation is organized as explained at
@@ -20,14 +20,20 @@ import com.pthw.biometricwithasymmetric.feature.verify.verifyPageNavigationRoute
 fun MainNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier,
-    startDestination: String = setupPageNavigationRoute,
+    startDestination: String = verifyPageNavigationRoute,
 ) {
+
     NavHost(
         navController = navController,
         startDestination = startDestination,
         modifier = modifier,
     ) {
-        biometricSetupPage(modifier) {
+
+        biometricSetupPage(
+            modifier = modifier,
+        ) {
+            Timber.i("navigate: NavHost")
+
             navController.navigate(verifyPageNavigationRoute)
         }
         biometricVerifyPage()

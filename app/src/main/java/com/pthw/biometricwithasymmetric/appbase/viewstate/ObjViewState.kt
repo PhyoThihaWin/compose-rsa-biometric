@@ -24,12 +24,15 @@ fun <T> ObjViewState<T>.renderState(
         is ObjViewState.Loading -> {
             loading.invoke()
         }
+
         is ObjViewState.Success -> {
             success.invoke(this.value)
         }
+
         is ObjViewState.Error -> {
             error.invoke(this.errorMessage)
         }
+
         else -> idle.invoke()
     }
 }
@@ -38,23 +41,24 @@ fun <T> ObjViewState<T>.renderState(
  * For jetpack compose state parsing
  */
 @Composable
-fun <T> ObjViewState<T>.RenderCompose(
+fun <T> RenderCompose(
+    state: ObjViewState<T>,
     idle: @Composable () -> Unit = {},
     loading: @Composable () -> Unit = {},
     success: @Composable (data: T) -> Unit,
     error: @Composable (msg: String) -> Unit = {},
 ) {
-    when (this) {
+    when (state) {
         is ObjViewState.Loading -> {
             loading.invoke()
         }
 
         is ObjViewState.Success -> {
-            success.invoke(this.value)
+            success.invoke(state.value)
         }
 
         is ObjViewState.Error -> {
-            error.invoke(this.errorMessage)
+            error.invoke(state.errorMessage)
         }
 
         else -> idle.invoke()

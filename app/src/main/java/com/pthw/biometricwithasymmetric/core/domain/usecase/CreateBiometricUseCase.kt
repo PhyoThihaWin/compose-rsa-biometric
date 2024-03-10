@@ -1,8 +1,8 @@
 package com.pthw.biometricwithasymmetric.core.domain.usecase
 
-import com.pocket.customer.domain.CoroutineUseCase
+import com.pthw.biometricwithasymmetric.core.domain.usecase.utils.CoroutineUseCase
 import com.pthw.biometricwithasymmetric.appbase.DispatcherProvider
-import com.pocket.customer.domain.TwoParams
+import com.pthw.biometricwithasymmetric.core.domain.usecase.utils.TwoParams
 import com.pthw.biometricwithasymmetric.core.domain.repository.BiometricRepository
 import javax.inject.Inject
 

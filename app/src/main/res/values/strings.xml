@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">BiometricWithAsymmetric</string>
+
+    <!--    region biometric-->
+    <string name="prompt_info_register_title">Register your biometric</string>
+    <string name="prompt_info_verify_title">Verify your biometric</string>
+    <string name="prompt_info_subtitle">Place your finger on fingerprint button to log in and confirm your transaction.</string>
+    <string name="prompt_info_description">Touch the fingerprint sensor</string>
+    <string name="prompt_info_cancel">Cancel</string>
+    <string name="prompt_info_use_screen_lock">Use screen lock</string>
+    <!--    endregion-->
 </resources>
