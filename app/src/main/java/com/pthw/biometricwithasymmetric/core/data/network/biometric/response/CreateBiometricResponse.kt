@@ -10,3 +10,9 @@ data class CreateBiometricResponse(
     @SerialName("public_key") val publicKey: String?,
     @SerialName("biometric_id") val biometricId: String?
 )
+
+@Serializable
+data class SetupBiometricResponse(
+    @SerialName("data") val data: CreateBiometricResponse?,
+    @SerialName("token") val token: String?,
+)

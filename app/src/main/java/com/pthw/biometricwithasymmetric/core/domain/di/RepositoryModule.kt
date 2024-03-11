@@ -1,6 +1,8 @@
-package com.pthw.biometricwithasymmetric.core.domain
+package com.pthw.biometricwithasymmetric.core.domain.di
 
+import com.pthw.biometricwithasymmetric.core.data.cache.AuthStoreProviderImpl
 import com.pthw.biometricwithasymmetric.core.data.repository.BiometricRepositoryImpl
+import com.pthw.biometricwithasymmetric.core.domain.repository.AuthStoreProvider
 import com.pthw.biometricwithasymmetric.core.domain.repository.BiometricRepository
 import dagger.Binds
 import dagger.Module

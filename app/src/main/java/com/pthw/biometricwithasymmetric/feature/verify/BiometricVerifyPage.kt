@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -12,8 +13,12 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,12 +35,16 @@ import co.onenex.biometric.model.dataclasses.VerifySuccess
 import co.onenex.biometric.utils.DataState
 import com.pthw.biometricwithasymmetric.R
 import com.pthw.biometricwithasymmetric.appbase.utils.showShortToast
+import com.pthw.biometricwithasymmetric.appbase.viewstate.ObjViewState
+import com.pthw.biometricwithasymmetric.appbase.viewstate.RenderCompose
 import com.pthw.biometricwithasymmetric.di.requireBiometricSetupPageEntryPoint
 import com.pthw.biometricwithasymmetric.feature.setup.BiometricViewModel
+import com.pthw.biometricwithasymmetric.ui.composable.LoadingDialog
 import com.pthw.biometricwithasymmetric.ui.theme.BiometricWithAsymmetricTheme
 import com.pthw.biometricwithasymmetric.ui.theme.Dimens
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 /**
  * Created by P.T.H.W on 08/03/2024.
@@ -63,23 +72,44 @@ fun BiometricVerifyPage(
         )
     }
 
+    val uiState = viewModel.validateBiometric.collectAsState(initial = ObjViewState.Idle()).value
+    var loadingState by remember { mutableStateOf(Pair<Boolean?, Boolean?>(null, null)) }
 
+    Box {
+        UiContent(modifier = modifier) {
+            nexBiometric.verify(
+                biometricVerifyParams,
+                object : DataState.Renderer<VerifySuccess>() {
+                    override fun success(data: VerifySuccess) {
+                        viewModel.validateBiometric(data.biometricId.value, data.signature)
+                    }
 
-    UiContent(modifier = modifier) {
-        nexBiometric.verify(biometricVerifyParams, object : DataState.Renderer<VerifySuccess>() {
-            override fun success(data: VerifySuccess) {
-                scope.launch {
-                    context.showShortToast("Biometric verification success.")
+                    override fun error(message: DataState.ErrorMessage) {
+                        loadingState = Pair(false, false)
+                        scope.launch {
+                            context.showShortToast("Biometric verification failed.")
+                        }
+                    }
+
+                })
+        }
+
+        RenderCompose(
+            state = uiState,
+            loading = {
+                loadingState = Pair(true, true)
+            },
+            success = {
+                if (loadingState.first != false && loadingState.second != false) {
+                    loadingState = Pair(false, false)
                 }
+            },
+            error = {
+                loadingState = Pair(false, false)
             }
+        )
 
-            override fun error(message: DataState.ErrorMessage) {
-                scope.launch {
-                    context.showShortToast("Biometric verification failed.")
-                }
-            }
-
-        })
+        LoadingDialog(loadingState, {})
     }
 }
 

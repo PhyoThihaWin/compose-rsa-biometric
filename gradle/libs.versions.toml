@@ -20,6 +20,7 @@ timber = "5.0.1"
 chucker = "4.0.0"
 androidxBiometric = "1.1.0"
 gson = "2.10.1"
+securityCrypto = "1.1.0-alpha04"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -50,6 +51,7 @@ timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 chucker = { module = "com.github.chuckerteam.chucker:library", version.ref = "chucker" }
 androidx-biometric = { module = "androidx.biometric:biometric", version.ref = "androidxBiometric" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+androidx-security-crypto = { module = "androidx.security:security-crypto", version.ref = "securityCrypto" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

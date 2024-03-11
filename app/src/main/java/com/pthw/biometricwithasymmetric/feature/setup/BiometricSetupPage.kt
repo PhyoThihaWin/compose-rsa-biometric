@@ -39,9 +39,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import co.onenex.biometric.NexBiometric
 import co.onenex.biometric.utils.DataState
 import com.pthw.biometricwithasymmetric.R
+import com.pthw.biometricwithasymmetric.appbase.utils.androidSecureId
 import com.pthw.biometricwithasymmetric.appbase.viewstate.ObjViewState
 import com.pthw.biometricwithasymmetric.appbase.viewstate.RenderCompose
 import com.pthw.biometricwithasymmetric.di.requireBiometricSetupPageEntryPoint
+import com.pthw.biometricwithasymmetric.ui.composable.LoadingDialog
 import com.pthw.biometricwithasymmetric.ui.theme.BiometricWithAsymmetricTheme
 import com.pthw.biometricwithasymmetric.ui.theme.Dimens
 import timber.log.Timber
@@ -76,9 +78,8 @@ fun BiometricSetupPage(
         )
     }
 
-
-    val uiState = viewModel.state.collectAsState(initial = ObjViewState.Idle()).value
-    var loadingState by remember { mutableStateOf(Pair<Boolean?, Boolean?>(false, false)) }
+    viewModel.deviceId = context.androidSecureId
+    var loadingState by remember { mutableStateOf(Pair<Boolean?, Boolean?>(null, null)) }
 
 
     Box {
@@ -86,26 +87,34 @@ fun BiometricSetupPage(
             nexBiometric.signUp(
                 params = biometricSignUpParams,
                 renderer = object : DataState.Renderer<Unit>() {
+                    override fun loading() {
+                        loadingState = Pair(true, true)
+                    }
+
                     override fun success(data: Unit) {
-                        viewModel.createBiometric("", "")
+                        if (loadingState.first != false && loadingState.second != false) {
+                            loadingState = Pair(true, false)
+                        }
                     }
                 })
         }
 
-        RenderCompose(
-            state = uiState,
-            idle = {
-                loadingState = Pair(null, null)
-            },
-            loading = {
-                loadingState = Pair(true, true)
-            },
-            success = {
-                if (loadingState.first != false && loadingState.second != false) {
-                    loadingState = Pair(true, false)
-                }
-            }
-        )
+
+//    val uiState = viewModel.state.collectAsState(initial = ObjViewState.Idle()).value
+//        RenderCompose(
+//            state = uiState,
+//            idle = {
+//                loadingState = Pair(null, null)
+//            },
+//            loading = {
+//                loadingState = Pair(true, true)
+//            },
+//            success = {
+//                if (loadingState.first != false && loadingState.second != false) {
+//                    loadingState = Pair(true, false)
+//                }
+//            }
+//        )
 
         LoadingDialog(loadingState) {
             loadingState = Pair(false, false)
@@ -117,36 +126,6 @@ fun BiometricSetupPage(
 
 }
 
-
-@Composable
-fun LoadingDialog(loadingState: Pair<Boolean?, Boolean?>, onDismissRequest: () -> Unit) {
-    if (loadingState.first == true) {
-        Dialog(
-            onDismissRequest = onDismissRequest,
-            DialogProperties(dismissOnBackPress = true, dismissOnClickOutside = true)
-        ) {
-            Card(
-                modifier = Modifier
-                    .size(100.dp)
-                    .background(Color.White, shape = RoundedCornerShape(8.dp))
-            ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    if (loadingState.second != false) {
-                        CircularProgressIndicator()
-                    } else {
-                        Image(
-                            painter = painterResource(id = R.drawable.img_biometric_success),
-                            contentDescription = ""
-                        )
-                    }
-                }
-            }
-        }
-    }
-}
 
 @Composable
 fun UiContent(

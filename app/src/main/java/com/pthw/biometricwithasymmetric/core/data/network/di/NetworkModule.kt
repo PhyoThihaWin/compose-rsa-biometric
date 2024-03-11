@@ -1,10 +1,12 @@
-package com.pthw.biometricwithasymmetric.core.data.network
+package com.pthw.biometricwithasymmetric.core.data.network.di
 
 import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.chuckerteam.chucker.api.RetentionManager
 import com.pthw.biometricwithasymmetric.core.data.network.biometric.BiometricService
+import com.pthw.biometricwithasymmetric.core.data.network.ktor.AuthTokenInterceptor
+import com.pthw.biometricwithasymmetric.core.data.network.ktor.ktorHttpClient
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -44,20 +46,10 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideKtorClient(
+        authTokenInterceptor: AuthTokenInterceptor,
         chuckerInterceptor: ChuckerInterceptor,
     ): HttpClient {
-        return ktorHttpClient(chuckerInterceptor)
-    }
-
-}
-
-@Module
-@InstallIn(ViewModelComponent::class)
-object MainServiceModule {
-
-    @Provides
-    fun provideMainService(ktor: HttpClient): BiometricService {
-        return BiometricService(ktor)
+        return ktorHttpClient(listOf(authTokenInterceptor, chuckerInterceptor))
     }
 
 }

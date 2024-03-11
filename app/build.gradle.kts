@@ -78,6 +78,7 @@ dependencies {
     implementation(libs.compose.viewmodel)
     implementation(libs.timber)
     implementation(libs.chucker)
+    implementation(libs.androidx.security.crypto)
 
     implementation(libs.bundles.ktor)
     implementation(libs.hilt.android)

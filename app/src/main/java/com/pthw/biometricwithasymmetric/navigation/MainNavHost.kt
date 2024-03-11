@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.pthw.biometricwithasymmetric.feature.setup.biometricSetupPage
+import com.pthw.biometricwithasymmetric.feature.setup.setupPageNavigationRoute
 import com.pthw.biometricwithasymmetric.feature.verify.biometricVerifyPage
 import com.pthw.biometricwithasymmetric.feature.verify.verifyPageNavigationRoute
 import timber.log.Timber
@@ -20,7 +21,7 @@ import timber.log.Timber
 fun MainNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier,
-    startDestination: String = verifyPageNavigationRoute,
+    startDestination: String = setupPageNavigationRoute,
 ) {
 
     NavHost(

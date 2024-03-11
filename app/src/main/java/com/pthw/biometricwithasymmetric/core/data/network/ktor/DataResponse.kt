@@ -1,4 +1,4 @@
-package com.pthw.biometricwithasymmetric.core.data.network
+package com.pthw.biometricwithasymmetric.core.data.network.ktor
 
 import kotlinx.serialization.Polymorphic
 import kotlinx.serialization.SerialName

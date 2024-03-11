@@ -1,4 +1,4 @@
-package com.pthw.biometricwithasymmetric.core.data.network
+package com.pthw.biometricwithasymmetric.core.data.network.ktor
 
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
@@ -23,16 +23,13 @@ private const val READ_TIMEOUT = 60L
 private const val WRITE_TIMEOUT = 15L
 
 // Ktor BaseUrl
-private const val KTOR_BASE_URL =
-    "http://ec2-47-129-33-88.ap-southeast-1.compute.amazonaws.com:9090/"
-
-// extension function to concat with baseUrl
-fun String.toKtor() = "$KTOR_BASE_URL$this"
+const val KTOR_BASE_URL = "https://present-sure-marmot.ngrok-free.app/"
 
 // ktor http client
 @OptIn(ExperimentalSerializationApi::class)
-val ktorHttpClient: (Interceptor) -> HttpClient = { interceptor ->
+val ktorHttpClient: (List<Interceptor>) -> HttpClient = { interceptors ->
     HttpClient(OkHttp) {
+        expectSuccess = true
 
         // okhttp engine config
         engine {
@@ -40,7 +37,10 @@ val ktorHttpClient: (Interceptor) -> HttpClient = { interceptor ->
                 connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
                 writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
                 readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
-                addInterceptor(interceptor)
+
+                interceptors.forEach {
+                    addInterceptor(it)
+                }
             }
         }
 
