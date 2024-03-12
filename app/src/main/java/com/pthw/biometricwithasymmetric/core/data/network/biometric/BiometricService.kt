@@ -1,6 +1,7 @@
 package com.pthw.biometricwithasymmetric.core.data.network.biometric
 
 import com.pthw.biometricwithasymmetric.core.data.network.biometric.mapper.SetupBiometricDataMapper
+import com.pthw.biometricwithasymmetric.core.data.network.biometric.response.ChallengeResponse
 import com.pthw.biometricwithasymmetric.core.data.network.ktor.DataResponse
 import com.pthw.biometricwithasymmetric.core.data.network.biometric.response.CreateBiometricResponse
 import com.pthw.biometricwithasymmetric.core.data.network.biometric.response.SetupBiometricResponse
@@ -45,13 +46,14 @@ class BiometricService @Inject constructor(
                     public_key = publicKey
                 )
             )
-        }.body<DataResponse<SetupBiometricResponse>>().data
-        return setupBiometricDataMapper.map(raw)
+        }.body<DataResponse<SetupBiometricResponse>>()
+        return setupBiometricDataMapper.map(raw.data)
     }
 
     suspend fun getChallenge(deviceId: String): String {
         val endpoint = SUB_GET_CHALLENGE.placeholders(mapOf("id" to deviceId)).toKtor()
-        return client.get(endpoint).body<String>()
+        val raw = client.get(endpoint).body<DataResponse<ChallengeResponse>>()
+        return raw.data?.challenge.toString()
     }
 
     suspend fun validateSignature(biometricId: String, signature: String): String {
@@ -62,7 +64,7 @@ class BiometricService @Inject constructor(
                 append("biometric_id", biometricId)
                 append("signature", signature)
             }
-        ).body<DataResponse<String>>().toString()
+        ).body<DataResponse<String>>().data.toString()
     }
 
 }

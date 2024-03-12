@@ -16,16 +16,18 @@ class BiometricRepositoryImpl @Inject constructor(
     override suspend fun createBiometric(deviceId: String, publicKey: String): String {
         val data = service.createBiometric(deviceId, publicKey)
         authStoreProvider.storeAuthToken(data.token)
+        Timber.w("BiometricId: ${data.data.biometricId}")
         return data.data.biometricId
     }
 
     override suspend fun getChallenge(deviceId: String): String {
-        return service.getChallenge(deviceId)
+        val data = service.getChallenge(deviceId)
+        Timber.w("Challenge: $data")
+        return data
     }
 
     override suspend fun validateSignature(biometricId: String, signature: String): String {
-        val raw =  service.validateSignature(biometricId, signature)
-        Timber.w("Reached success!! + $raw")
+        val raw = service.validateSignature(biometricId, signature)
         return raw
     }
 }

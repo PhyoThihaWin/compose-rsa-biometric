@@ -102,6 +102,7 @@ fun BiometricVerifyPage(
             success = {
                 if (loadingState.first != false && loadingState.second != false) {
                     loadingState = Pair(false, false)
+                    context.showShortToast(it)
                 }
             },
             error = {
@@ -109,7 +110,9 @@ fun BiometricVerifyPage(
             }
         )
 
-        LoadingDialog(loadingState, {})
+        LoadingDialog(
+            modifier = modifier,
+            loadingState = loadingState, {})
     }
 }
 

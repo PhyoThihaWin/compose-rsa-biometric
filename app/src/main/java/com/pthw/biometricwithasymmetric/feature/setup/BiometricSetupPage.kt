@@ -116,9 +116,14 @@ fun BiometricSetupPage(
 //            }
 //        )
 
-        LoadingDialog(loadingState) {
-            loadingState = Pair(false, false)
-            navigateToVerify()
+        LoadingDialog(
+            modifier = modifier,
+            loadingState = loadingState
+        ) {
+            if (loadingState.second == false) {
+                loadingState = Pair(false, false)
+                navigateToVerify()
+            }
         }
 
 

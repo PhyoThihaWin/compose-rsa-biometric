@@ -28,10 +28,7 @@ fun NavGraphBuilder.biometricSetupPage(
         route = setupPageNavigationRoute,
     ) {
 
-
-
         BiometricSetupPage(
-            modifier = modifier,
             navigateToVerify = navigateToVerify,
         )
     }
