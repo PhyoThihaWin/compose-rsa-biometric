@@ -30,11 +30,7 @@ fun MainNavHost(
         modifier = modifier,
     ) {
 
-        biometricSetupPage(
-            modifier = modifier,
-        ) {
-            Timber.i("navigate: NavHost")
-
+        biometricSetupPage {
             navController.navigate(verifyPageNavigationRoute)
         }
         biometricVerifyPage()

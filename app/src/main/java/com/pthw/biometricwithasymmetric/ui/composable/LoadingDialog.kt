@@ -24,7 +24,6 @@ import com.pthw.biometricwithasymmetric.ui.theme.Dimens
 
 @Composable
 fun LoadingDialog(
-    modifier: Modifier = Modifier,
     loadingState: Pair<Boolean?, Boolean?>, onDismissRequest: () -> Unit
 ) {
     if (loadingState.first == true) {

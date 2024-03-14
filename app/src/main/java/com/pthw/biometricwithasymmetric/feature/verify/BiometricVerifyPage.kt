@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,17 +33,13 @@ import co.onenex.biometric.NexBiometric
 import co.onenex.biometric.model.dataclasses.VerifySuccess
 import co.onenex.biometric.utils.DataState
 import com.pthw.biometricwithasymmetric.R
-import com.pthw.biometricwithasymmetric.appbase.utils.showShortToast
-import com.pthw.biometricwithasymmetric.appbase.viewstate.ObjViewState
-import com.pthw.biometricwithasymmetric.appbase.viewstate.RenderCompose
 import com.pthw.biometricwithasymmetric.di.requireBiometricSetupPageEntryPoint
 import com.pthw.biometricwithasymmetric.feature.setup.BiometricViewModel
 import com.pthw.biometricwithasymmetric.ui.composable.LoadingDialog
 import com.pthw.biometricwithasymmetric.ui.theme.BiometricWithAsymmetricTheme
 import com.pthw.biometricwithasymmetric.ui.theme.Dimens
-import kotlinx.coroutines.coroutineScope
+import com.pthw.shared.extension.showShortToast
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 /**
  * Created by P.T.H.W on 08/03/2024.
@@ -72,7 +67,7 @@ fun BiometricVerifyPage(
         )
     }
 
-    val uiState = viewModel.validateBiometric.collectAsState(initial = ObjViewState.Idle()).value
+    val uiState = viewModel.validateBiometric.collectAsState(initial = com.pthw.appbase.viewstate.ObjViewState.Idle()).value
     var loadingState by remember { mutableStateOf(Pair<Boolean?, Boolean?>(null, null)) }
 
     Box {
@@ -94,7 +89,7 @@ fun BiometricVerifyPage(
                 })
         }
 
-        RenderCompose(
+        com.pthw.appbase.viewstate.RenderCompose(
             state = uiState,
             loading = {
                 loadingState = Pair(true, true)
@@ -111,8 +106,8 @@ fun BiometricVerifyPage(
         )
 
         LoadingDialog(
-            modifier = modifier,
-            loadingState = loadingState, {})
+            loadingState = loadingState, {}
+        )
     }
 }
 

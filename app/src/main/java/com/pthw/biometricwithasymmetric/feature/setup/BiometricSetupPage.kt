@@ -8,16 +8,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,17 +25,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import co.onenex.biometric.NexBiometric
 import co.onenex.biometric.utils.DataState
 import com.pthw.biometricwithasymmetric.R
-import com.pthw.biometricwithasymmetric.appbase.utils.androidSecureId
-import com.pthw.biometricwithasymmetric.appbase.viewstate.ObjViewState
-import com.pthw.biometricwithasymmetric.appbase.viewstate.RenderCompose
+import com.pthw.shared.extension.androidSecureId
 import com.pthw.biometricwithasymmetric.di.requireBiometricSetupPageEntryPoint
 import com.pthw.biometricwithasymmetric.ui.composable.LoadingDialog
 import com.pthw.biometricwithasymmetric.ui.theme.BiometricWithAsymmetricTheme
@@ -117,7 +106,6 @@ fun BiometricSetupPage(
 //        )
 
         LoadingDialog(
-            modifier = modifier,
             loadingState = loadingState
         ) {
             if (loadingState.second == false) {

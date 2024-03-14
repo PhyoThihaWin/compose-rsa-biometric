@@ -55,6 +55,7 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
+    implementation(project(":appbase"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -77,10 +78,7 @@ dependencies {
     // third parties
     implementation(libs.compose.viewmodel)
     implementation(libs.timber)
-    implementation(libs.chucker)
-    implementation(libs.androidx.security.crypto)
 
-    implementation(libs.bundles.ktor)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
