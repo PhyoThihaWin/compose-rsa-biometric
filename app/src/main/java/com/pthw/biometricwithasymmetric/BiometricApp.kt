@@ -1,7 +1,7 @@
 package com.pthw.biometricwithasymmetric
 
 import android.app.Application
-import com.pthw.biometricwithasymmetric.appbase.utils.isInDev
+import com.pthw.shared.extension.isInDev
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
@@ -19,7 +19,7 @@ class BiometricApp : Application() {
 private fun setupTimber() {
     if (BuildConfig.BUILD_TYPE.isInDev()) {
         Timber.plant(object : Timber.DebugTree() {
-            override fun createStackElementTag(element: StackTraceElement): String? {
+            override fun createStackElementTag(element: StackTraceElement): String {
                 return String.format(
                     "C:%s, L:%s",
                     super.createStackElementTag(element)?.substringBefore("$")

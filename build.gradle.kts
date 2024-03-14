@@ -5,10 +5,12 @@ plugins {
     alias(libs.plugins.koltinxSerilization) apply false
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.hilt) apply false
+    alias(libs.plugins.androidLibrary) apply false
+    alias(libs.plugins.jetbrainsKotlinJvm) apply false
 }
 
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>() {
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     compilerOptions.freeCompilerArgs.addAll(
         "-P",
         "plugin:androidx.compose.compiler.plugins.kotlin:experimentalStrongSkipping=true",

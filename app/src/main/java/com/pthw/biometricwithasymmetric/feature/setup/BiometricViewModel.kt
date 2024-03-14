@@ -4,12 +4,9 @@ import androidx.lifecycle.viewModelScope
 import co.onenex.biometric.exception.BiometricException
 import co.onenex.biometric.model.valueclasses.BiometricId
 import co.onenex.biometric.model.valueclasses.Challenge
-import com.pthw.biometricwithasymmetric.appbase.BaseViewModel
-import com.pthw.biometricwithasymmetric.appbase.viewstate.ObjViewState
-import com.pthw.biometricwithasymmetric.core.domain.usecase.CreateBiometricUseCase
-import com.pthw.biometricwithasymmetric.core.domain.usecase.GetChallengeUseCase
-import com.pthw.biometricwithasymmetric.core.domain.usecase.utils.TwoParams
-import com.pthw.biometricwithasymmetric.core.domain.usecase.utils.ValidateSignatureUseCase
+import com.pthw.domain.usecase.CreateBiometricUseCase
+import com.pthw.domain.usecase.GetChallengeUseCase
+import com.pthw.domain.usecase.utils.ValidateSignatureUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -27,7 +24,7 @@ class BiometricViewModel @Inject constructor(
     private val createBiometricUseCase: CreateBiometricUseCase,
     private val getChallengeUseCase: GetChallengeUseCase,
     private val validateSignatureUseCase: ValidateSignatureUseCase
-) : BaseViewModel() {
+) : com.pthw.appbase.BaseViewModel() {
 
     var deviceId: String? = null
 
@@ -36,7 +33,12 @@ class BiometricViewModel @Inject constructor(
         runCatching {
             delay(300)
             return BiometricId(
-                createBiometricUseCase.execute(TwoParams(deviceId.orEmpty(), publicKey))
+                createBiometricUseCase.execute(
+                    com.pthw.domain.usecase.utils.TwoParams(
+                        deviceId.orEmpty(),
+                        publicKey
+                    )
+                )
             )
         }.getOrElse {
             throw BiometricException(exception.map(it), false)
@@ -44,20 +46,25 @@ class BiometricViewModel @Inject constructor(
     }
 
 
-    private val _validateBiometric = MutableSharedFlow<ObjViewState<String>>()
+    private val _validateBiometric = MutableSharedFlow<com.pthw.appbase.viewstate.ObjViewState<String>>()
     val validateBiometric = _validateBiometric.asSharedFlow()
 
     fun validateBiometric(biometricId: String, signature: String) {
         viewModelScope.launch {
             runCatching {
-                _validateBiometric.emit(ObjViewState.Loading())
+                _validateBiometric.emit(com.pthw.appbase.viewstate.ObjViewState.Loading())
                 delay(300)
                 Timber.w("Reached success!!")
-                val data = validateSignatureUseCase.execute(TwoParams(biometricId, signature))
-                _validateBiometric.emit(ObjViewState.Success(data))
+                val data = validateSignatureUseCase.execute(
+                    com.pthw.domain.usecase.utils.TwoParams(
+                        biometricId,
+                        signature
+                    )
+                )
+                _validateBiometric.emit(com.pthw.appbase.viewstate.ObjViewState.Success(data))
             }.getOrElse {
                 Timber.e(it)
-                _validateBiometric.emit(ObjViewState.Error(exception.map(it)))
+                _validateBiometric.emit(com.pthw.appbase.viewstate.ObjViewState.Error(exception.map(it)))
             }
         }
     }

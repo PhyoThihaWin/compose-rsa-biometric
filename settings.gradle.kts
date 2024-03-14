@@ -21,3 +21,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "ComposeRsaBiometric"
 include(":app")
+include(":data")
+include(":domain")
+include(":appbase")
+include(":shared")
