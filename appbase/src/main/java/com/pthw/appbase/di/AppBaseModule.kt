@@ -1,7 +1,7 @@
 package com.pthw.appbase.di
 
-import com.pthw.appbase.exceptionmapper.ExceptionMapper
-import com.pthw.appbase.exceptionmapper.ExceptionMapperImpl
+import com.pthw.appbase.exceptionmapper.ExceptionHandler
+import com.pthw.appbase.exceptionmapper.ExceptionHandlerImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -17,5 +17,5 @@ import javax.inject.Singleton
 abstract class BaseAppModule {
     @Binds
     @Singleton
-    abstract fun exceptionMapper(exceptionMapperImpl: ExceptionMapperImpl): ExceptionMapper
+    abstract fun exceptionMapper(exceptionMapperImpl: ExceptionHandlerImpl): ExceptionHandler
 }

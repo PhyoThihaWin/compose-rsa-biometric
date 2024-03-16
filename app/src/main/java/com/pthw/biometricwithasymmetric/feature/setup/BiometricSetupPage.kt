@@ -123,7 +123,7 @@ fun BiometricSetupPage(
 @Composable
 fun UiContent(
     modifier: Modifier,
-    onClick: () -> Unit
+    btnClick: () -> Unit
 ) {
     Column(
         modifier = modifier
@@ -164,7 +164,7 @@ fun UiContent(
         Spacer(modifier = Modifier.padding(top = Dimens.MARGIN_XXLARGE))
 
         Button(onClick = {
-            onClick()
+            btnClick()
         }) {
             Text(text = "Setup Biometric")
         }
@@ -180,7 +180,7 @@ private fun SetupContentPreview() {
     BiometricWithAsymmetricTheme {
         UiContent(
             modifier = Modifier,
-            onClick = {},
+            btnClick = {},
         )
     }
 }

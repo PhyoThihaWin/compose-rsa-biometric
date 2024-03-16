@@ -11,7 +11,7 @@ activityCompose = "1.8.2"
 androidxHiltNavigationCompose = "1.2.0"
 androidxNavigation = "2.7.7"
 composeBom = "2024.02.02"
-composeViewModel = "2.7.0"
+lifecycleVersion = "2.7.0"
 ktor = "2.3.8"
 kotlinxSerialization = "1.6.3"
 kotlinxSerializationPlugin = "1.9.22"
@@ -46,12 +46,14 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
+ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
 ktor-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-kotlinx-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "daggerHilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "daggerHilt" }
-compose-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "composeViewModel" }
+compose-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleVersion" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 chucker = { module = "com.github.chuckerteam.chucker:library", version.ref = "chucker" }
 androidx-biometric = { module = "androidx.biometric:biometric", version.ref = "androidxBiometric" }
@@ -61,6 +63,7 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 javax-inject = { module = "javax.inject:javax.inject", version.ref = "javaxInject" }
 coroutine-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutineCore" }
+lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleVersion" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

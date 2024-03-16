@@ -20,10 +20,10 @@ import javax.inject.Inject
  * Modified by ZMT, PTH.W
  * Changed to KTOR exception mapper...
  */
-class ExceptionMapperImpl @Inject constructor(
+class ExceptionHandlerImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     private val localEventBus: LocalBroadcastEventBus
-) : ExceptionMapper {
+) : ExceptionHandler {
 
     companion object {
         private const val ERROR_CODE_400 = 400

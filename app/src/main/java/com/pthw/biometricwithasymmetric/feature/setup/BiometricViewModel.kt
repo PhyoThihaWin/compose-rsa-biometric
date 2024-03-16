@@ -1,11 +1,15 @@
 package com.pthw.biometricwithasymmetric.feature.setup
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.onenex.biometric.exception.BiometricException
 import co.onenex.biometric.model.valueclasses.BiometricId
 import co.onenex.biometric.model.valueclasses.Challenge
+import com.pthw.appbase.exceptionmapper.ExceptionHandler
+import com.pthw.appbase.viewstate.ObjViewState
 import com.pthw.domain.usecase.CreateBiometricUseCase
 import com.pthw.domain.usecase.GetChallengeUseCase
+import com.pthw.domain.usecase.utils.TwoParams
 import com.pthw.domain.usecase.utils.ValidateSignatureUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -21,10 +25,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BiometricViewModel @Inject constructor(
+    private val handler: ExceptionHandler,
     private val createBiometricUseCase: CreateBiometricUseCase,
     private val getChallengeUseCase: GetChallengeUseCase,
-    private val validateSignatureUseCase: ValidateSignatureUseCase
-) : com.pthw.appbase.BaseViewModel() {
+    private val validateSignatureUseCase: ValidateSignatureUseCase,
+) : ViewModel() {
 
     var deviceId: String? = null
 
@@ -34,49 +39,48 @@ class BiometricViewModel @Inject constructor(
             delay(300)
             return BiometricId(
                 createBiometricUseCase.execute(
-                    com.pthw.domain.usecase.utils.TwoParams(
-                        deviceId.orEmpty(),
-                        publicKey
-                    )
+                    TwoParams(deviceId.orEmpty(), publicKey)
                 )
             )
         }.getOrElse {
-            throw BiometricException(exception.map(it), false)
+            throw BiometricException(handler.map(it), false)
         }
     }
 
-
-    private val _validateBiometric = MutableSharedFlow<com.pthw.appbase.viewstate.ObjViewState<String>>()
-    val validateBiometric = _validateBiometric.asSharedFlow()
-
-    fun validateBiometric(biometricId: String, signature: String) {
-        viewModelScope.launch {
-            runCatching {
-                _validateBiometric.emit(com.pthw.appbase.viewstate.ObjViewState.Loading())
-                delay(300)
-                Timber.w("Reached success!!")
-                val data = validateSignatureUseCase.execute(
-                    com.pthw.domain.usecase.utils.TwoParams(
-                        biometricId,
-                        signature
-                    )
-                )
-                _validateBiometric.emit(com.pthw.appbase.viewstate.ObjViewState.Success(data))
-            }.getOrElse {
-                Timber.e(it)
-                _validateBiometric.emit(com.pthw.appbase.viewstate.ObjViewState.Error(exception.map(it)))
-            }
-        }
-    }
 
     // reference to nex-biometric
     suspend fun getBiometricChallenge(biometricId: BiometricId): Challenge {
         runCatching {
             return Challenge(value = getChallengeUseCase.execute(biometricId.value))
         }.getOrElse {
-            throw BiometricException(exception.map(it), false)
+            throw BiometricException(handler.map(it), false)
         }
     }
 
 
+    private val _validateBiometric =
+        MutableSharedFlow<ObjViewState<String>>()
+    val validateBiometric = _validateBiometric.asSharedFlow()
+
+    // signature valide
+    fun validateBiometric(biometricId: String, signature: String) {
+        viewModelScope.launch {
+            runCatching {
+                _validateBiometric.emit(ObjViewState.Loading())
+                delay(300)
+                Timber.w("Reached success!!")
+                val data = validateSignatureUseCase.execute(
+                    TwoParams(biometricId, signature)
+                )
+                _validateBiometric.emit(ObjViewState.Success(data))
+            }.getOrElse {
+                Timber.e(it)
+                _validateBiometric.emit(
+                    ObjViewState.Error(handler.map(it))
+                )
+            }
+        }
+    }
+
 }
+

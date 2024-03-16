@@ -48,6 +48,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
+    implementation(libs.lifecycle.viewmodel)
     implementation(libs.material)
     implementation(project(":shared"))
     testImplementation(libs.junit)
