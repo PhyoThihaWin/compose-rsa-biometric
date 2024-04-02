@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-    alias(libs.plugins.koltinxSerilization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
 }

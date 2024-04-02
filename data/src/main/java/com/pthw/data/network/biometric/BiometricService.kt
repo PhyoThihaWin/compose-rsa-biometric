@@ -2,23 +2,19 @@ package com.pthw.data.network.biometric
 
 import com.pthw.data.network.biometric.mapper.SetupBiometricDataMapper
 import com.pthw.data.network.biometric.response.ChallengeResponse
-import com.pthw.data.network.ktor.DataResponse
-import com.pthw.data.network.biometric.response.CreateBiometricResponse
 import com.pthw.data.network.biometric.response.SetupBiometricResponse
-import com.pthw.data.network.ktor.DataEmptyResponse
+import com.pthw.data.network.ktor.DataResponse
 import com.pthw.data.network.ktor.placeholders
 import com.pthw.data.network.ktor.toKtor
 import com.pthw.domain.model.SetupBiometricData
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.request.forms.formData
 import io.ktor.client.request.forms.submitForm
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.parameters
 import kotlinx.serialization.Serializable
-import timber.log.Timber
 import javax.inject.Inject
 
 

@@ -10,7 +10,7 @@ import com.pthw.appbase.viewstate.ObjViewState
 import com.pthw.domain.usecase.CreateBiometricUseCase
 import com.pthw.domain.usecase.GetChallengeUseCase
 import com.pthw.domain.usecase.utils.TwoParams
-import com.pthw.domain.usecase.utils.ValidateSignatureUseCase
+import com.pthw.domain.usecase.ValidateSignatureUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow

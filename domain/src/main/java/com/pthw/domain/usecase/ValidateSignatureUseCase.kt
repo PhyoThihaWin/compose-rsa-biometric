@@ -1,7 +1,9 @@
-package com.pthw.domain.usecase.utils
+package com.pthw.domain.usecase
 
 import com.pthw.domain.DispatcherProvider
 import com.pthw.domain.repository.BiometricRepository
+import com.pthw.domain.usecase.utils.CoroutineUseCase
+import com.pthw.domain.usecase.utils.TwoParams
 import javax.inject.Inject
 
 /**

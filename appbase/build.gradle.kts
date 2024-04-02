@@ -50,7 +50,6 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.lifecycle.viewmodel)
     implementation(libs.material)
-    implementation(project(":shared"))
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
